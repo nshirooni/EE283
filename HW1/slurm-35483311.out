@@ -1,0 +1,16 @@
+--2025-01-13 23:44:57--  https://wfitch.bio.uci.edu/~tdlong/problem1.tar.gz
+Resolving wfitch.bio.uci.edu (wfitch.bio.uci.edu)... 128.200.71.64
+Connecting to wfitch.bio.uci.edu (wfitch.bio.uci.edu)|128.200.71.64|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 284 [application/x-gzip]
+Saving to: ‘problem1.tar.gz’
+
+     0K                                                       100% 46.1K=0.006s
+
+2025-01-13 23:44:57 (46.1 KB/s) - ‘problem1.tar.gz’ saved [284/284]
+
+problem1/
+problem1/p.txt
+problem1/f.txt
+3 
+55 
