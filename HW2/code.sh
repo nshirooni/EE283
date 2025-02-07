@@ -36,20 +36,3 @@ while read p; do
     ln -s "$READ2" "${DestDir}/${genotype}_${tissue}_rep${bioRep}_R2.fq.gz"
     
 done < "$File"
-
-mkdir /pub/nshiroon/EE283/HW2/RNAseq/
-SourceDir="/data/class/ecoevo283/public/Bioinformatics_Course/RNAseq/RNAseq384plex_flowcell01"
-DestDir="/pub/nshiroon/EE283/HW2/RNAseq/"
-Labels="/data/class/ecoevo283/public/Bioinformatics_Course/RNAseq/RNAseq384_SampleCoding.txt"
-tail -n +2 $Labels | head -n -1 > $DestDir/labels_rna.txt
-File="/pub/nshiroon/EE283/HW2/RNAseq/labels_rna.txt"
-while read -r number plex lane barcode plate row col well rest; do
-    for plexdir in ${SourceDir}/Project_plex*/; do
-        if [ -d "${plexdir}/Sample_${number}" ]; then
-            READ1="${plexdir}/Sample_${number}/${number}_${plate}_${well}_R1.fastq.gz"
-            READ2="${plexdir}/Sample_${number}/${number}_${plate}_${well}_R2.fastq.gz"
-            ln -s "$READ1" "${DestDir}/$(basename $READ1)"
-            ln -s "$READ2" "${DestDir}/$(basename $READ2)"
-        fi
-    done
-done < "$File"
