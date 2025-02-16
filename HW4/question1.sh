@@ -6,16 +6,16 @@
 module load samtools/1.15.1
 module load bedtools2/2.30.0
 
-cd /pub/nshiroon/EE283/DATA/ATACseq
+cd /pub/nshiroon/EE283/DATA/DNAseq
 
-A4="/pub/nshiroon/EE283/DATA/ATACseq/A4_WD_rep1.bam"
-A5="/pub/nshiroon/EE283/DATA/ATACseq/A5_WD_rep1.bam"
+A4="/pub/nshiroon/EE283/DATA/DNAseq/ADL06.bam"
+A5="/pub/nshiroon/EE283/DATA/DNAseq/ADL09.bam"
 
-samtools sort -o A4_sorted.bam $A4
-samtools sort -o A5_sorted.bam $A5
+samtools sort -o ADL06_sorted.bam $A4
+samtools sort -o ADL09_sorted.bam $A5
 
-A4="/pub/nshiroon/EE283/DATA/ATACseq/A4_sorted.bam"
-A5="/pub/nshiroon/EE283/DATA/ATACseq/A5_sorted.bam"
+A4="/pub/nshiroon/EE283/DATA/DNAseq/ADL06_sorted.bam"
+A5="/pub/nshiroon/EE283/DATA/DNAseq/ADL09_sorted.bam"
 
 samtools index $A4
 samtools index $A5

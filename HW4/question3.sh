@@ -1,7 +1,7 @@
 salloc -A ecoevo283 --ntasks=2 srun --pty /bin/bash -i
 
 
-mamba create -n deeptools 
+mamba create -n deeptools
 
 mamba activate deeptools
 
@@ -10,18 +10,33 @@ mamba install -c conda-forge -c bioconda deeptools
 samtools index A4_filtered.bam
 samtools index A5_filtered.bam
 
-bamCoverage -b A4_filtered.bam -o A4.bw --binSize 1 --normalizeUsing RPKM
-bamCoverage -b A5_filtered.bam -o A5.bw --binSize 1 --normalizeUsing RPKM
+bamCoverage -b A4_filtered.bam -o A4.bedgraph --binSize 1 --normalizeUsing RPKM --outFileFormat bedgraph
+bamCoverage -b A5_filtered.bam -o A5.bedgraph --binSize 1 --normalizeUsing RPKM --outFileFormat bedgraph
 
-echo -e "X\t1904042\t1904043" > region.bed
+python
 
-computeMatrix reference-point \
--S A4.bw A5.bw \
--R region.bed \
---referencePoint center \
--a 5000 -b 5000 \
--out matrix.gz
+import pandas as pd
+import matplotlib.pyplot as plt
 
-plotProfile -m matrix.gz -out coverage_profile.png \
---plotTitle "Coverage near chrX:1,904,042"
+df_A4 = pd.read_csv("A4.bedgraph", sep="\t", header=None, names=["chr", "start", "end", "signal"])
+df_A5 = pd.read_csv("A5.bedgraph", sep="\t", header=None, names=["chr", "start", "end", "signal"])
+
+region_start, region_end = 1904000, 1904500
+df_A4_roi = df_A4[(df_A4["start"] >= region_start) & (df_A4["end"] <= region_end)]
+df_A5_roi = df_A5[(df_A5["start"] >= region_start) & (df_A5["end"] <= region_end)]
+
+plt.figure(figsize=(10, 5))
+
+plt.step(df_A4_roi["start"], df_A4_roi["signal"], label="A4", color="blue", where="post")
+plt.step(df_A5_roi["start"], df_A5_roi["signal"], label="A5", color="red", where="post")
+
+plt.xlabel("Genomic Position on chrX")
+plt.ylabel("Coverage (RPKM)")
+plt.title("Coverage near chrX:1,904,042")
+
+plt.xlim(region_start, region_end)
+
+plt.legend()
+plt.savefig("coverage_profile.png", dpi=300, bbox_inches='tight')
+plt.show()
 
